@@ -48,9 +48,11 @@ void CMenuBackgroundBitmap::VidInit()
 			size = m_pParent->size.Scale();
 		}
 	}
-
+#if defined( __psp__ ) /* black color */
+	colorBase.SetDefault( 0xFF000000 );
+#else
 	colorBase.SetDefault( 0xFF505050 );
-
+#endif
 	CMenuBaseItem::VidInit();
 }
 

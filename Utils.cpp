@@ -35,6 +35,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#include <sys/time.h>
 #elif defined __DOS__
 	// nothing
+#elif __psp__
+	#include <pspkernel.h>
+	#include <psprtc.h>
 #else
 	#include <time.h>
 #endif
@@ -670,6 +673,10 @@ double Sys_DoubleTime( void )
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	return (double) tv.tv_sec + (double) tv.tv_usec/1000000.0;
+#elif defined __psp__
+	u64 current_ticks;
+	sceRtcGetCurrentTick(&current_ticks);
+	return ( double )current_ticks * 0.000001;
 #else
 	struct timespec ts;
 	clock_gettime(CLOCK_MONOTONIC, &ts);
