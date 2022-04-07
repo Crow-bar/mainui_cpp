@@ -43,26 +43,29 @@ UI_SaveLoad_Init
 */
 void CMenuSaveLoad::_Init( void )
 {
+#ifndef MAINUI_PSP
 	snprintf( hintText, sizeof( hintText ),
 		L( "During play, you can quickly save your game by pressing %s.\n"
 		"Load this game again by pressing %s." ),
 		EngFuncs::KeynumToString( KEY_GetKey( "save quick" ) ),
 		EngFuncs::KeynumToString( KEY_GetKey( "load quick" ) ) );
-
+#endif
 	banner.SetPicture( ART_BANNER );
-
+#ifndef MAINUI_PSP
 	hintMessage.iFlags = QMF_INACTIVE;
 	hintMessage.colorBase = uiColorHelp;
 	hintMessage.SetCharSize( QM_SMALLFONT );
 	hintMessage.szName = hintText;
 	hintMessage.SetCoord( 360, 480 );
-
+#endif
 	AddItem( background );
 	AddItem( banner );
 	AddButton( L( "GameUI_LoadGame" ), L( "GameUI_LoadGameHelp" ), PC_LOAD_GAME, UI_LoadGame_Menu, QMF_NOTIFY );
 	AddButton( L( "GameUI_SaveGame" ), L( "GameUI_SaveGameHelp" ), PC_SAVE_GAME, UI_SaveGame_Menu, QMF_NOTIFY );
 	AddButton( L( "Done" ), L( "Go back to the Main menu" ), PC_DONE, VoidCb( &CMenuSaveLoad::Hide ), QMF_NOTIFY );
+#ifndef MAINUI_PSP
 	AddItem( hintMessage );
+#endif
 }
 
 ADD_MENU( menu_saveload, CMenuSaveLoad, UI_SaveLoad_Menu );

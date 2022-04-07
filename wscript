@@ -72,7 +72,7 @@ def configure(conf):
 		conf.env.append_unique('CXXFLAGS', '-fno-exceptions')
 
 	if conf.env.DEST_OS == 'psp':
-		conf.define('MAINUI_PSPSIZE', 1)
+		conf.define('MAINUI_PSP', 1)
 
 	if conf.env.DEST_OS != 'win32' and conf.env.DEST_OS != 'dos' and conf.env.DEST_OS != 'psp':
 		if not conf.env.USE_STBTT and not conf.options.LOW_MEMORY:

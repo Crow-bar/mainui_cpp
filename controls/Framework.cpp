@@ -68,8 +68,11 @@ void CMenuFramework::Draw()
 		UnpackRGB( r, g, b, uiColorHelp );
 		EngFuncs::DrawSetTextColor( r, g, b, alpha * 255 );
 		x = ( ScreenWidth - len ) * 0.5f; // centering
-
+#ifdef MAINUI_PSP
+		EngFuncs::DrawConsoleString( x, uiStatic.yOffset + 720 * uiStatic.scaleY - 9, statusText );
+#else
 		EngFuncs::DrawConsoleString( x, uiStatic.yOffset + 720 * uiStatic.scaleY, statusText );
+#endif
 	}
 	else statusFadeTime = uiStatic.realTime;
 }

@@ -51,10 +51,11 @@ public:
 	CMenuSlider	screenSize;
 	CMenuSlider	gammaIntensity;
 	CMenuSlider	glareReduction;
+#ifndef MAINUI_PSP
 	CMenuCheckBox	fastSky;
-	CMenuCheckBox   vbo;
-	CMenuCheckBox   bump;
-
+	CMenuCheckBox	vbo;
+	CMenuCheckBox	bump;
+#endif
 	HIMAGE		hTestImage;
 };
 
@@ -84,9 +85,11 @@ void CMenuVidOptions::SaveAndPopMenu( void )
 {
 	screenSize.WriteCvar();
 	glareReduction.WriteCvar();
+#ifndef MAINUI_PSP
 	fastSky.WriteCvar();
 	vbo.WriteCvar();
 	bump.WriteCvar();
+#endif
 	// gamma is already written
 
 	CMenuFramework::SaveAndPopMenu();
@@ -169,7 +172,7 @@ void CMenuVidOptions::_Init( void )
 	glareReduction.SetCoord( 72, 400 );
 	glareReduction.SetNameAndStatus( L( "GameUI_Brightness" ), L( "Set brightness level" ) );
 	glareReduction.Setup( 0, 3, 0.1 );
-
+#ifndef MAINUI_PSP
 	bump.SetNameAndStatus( L( "Bump-mapping" ), L( "Enable bump mapping" ) );
 	bump.SetCoord( 72, 515 );
 	if( !EngFuncs::GetCvarFloat( "r_vbo" ) )
@@ -184,26 +187,30 @@ void CMenuVidOptions::_Init( void )
 
 	fastSky.SetNameAndStatus( L( "Draw simple sky" ), L( "enable/disable fast sky rendering (for old computers)" ) );
 	fastSky.SetCoord( 72, 615 );
-
+#endif
 	AddItem( background );
 	AddItem( banner );
 	AddItem( done );
 	AddItem( screenSize );
 	AddItem( gammaIntensity );
 	AddItem( glareReduction );
+#ifndef MAINUI_PSP
 	if( UI_IsXashFWGS() )
 	{
 		AddItem( bump );
 		AddItem( vbo );
 	}
 	AddItem( fastSky );
+#endif
 	AddItem( testImage );
 	screenSize.LinkCvar( "viewsize" );
 	gammaIntensity.LinkCvar( "gamma" );
 	glareReduction.LinkCvar( "brightness" );
+#ifndef MAINUI_PSP
 	bump.LinkCvar( "r_bump" );
 	vbo.LinkCvar( "r_vbo" );
 	fastSky.LinkCvar( "r_fastsky" );
+#endif
 
 }
 

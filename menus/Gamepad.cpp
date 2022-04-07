@@ -243,6 +243,34 @@ void CMenuGamePad::_Init( void )
 
 void CMenuGamePad::_VidInit()
 {
+#ifdef MAINUI_PSP
+	axisBind_label.SetCoord( 360, 130 );
+	axisBind_label.SetCharSize( QM_SMALLFONT );
+
+	for( int i = 0, y = 280; i < 6; i++, y += 55 )
+	{
+		axisBind[i].SetRect( 360, y, 256, invSide.size.h );
+		axisBind[i].SetCharSize( QM_SMALLFONT );
+	}
+
+	int sliderAlign = invSide.size.h - side.size.h;
+
+	side.SetCoord( 630, 320 + sliderAlign );
+	side.SetCharSize( QM_SMALLFONT );
+	invSide.SetCoord( 850, 320 );
+
+	forward.SetCoord( 630, 400 + sliderAlign );
+	forward.SetCharSize( QM_SMALLFONT );
+	invFwd.SetCoord( 850, 400 );
+
+	pitch.SetCoord( 630, 480 + sliderAlign );
+	pitch.SetCharSize( QM_SMALLFONT );
+	invPitch.SetCoord( 850, 480 );
+
+	yaw.SetCoord( 630, 560 + sliderAlign );
+	yaw.SetCharSize( QM_SMALLFONT );
+	invYaw.SetCoord( 850, 560 );
+#else
 	axisBind_label.SetCoord( 360, 230 );
 	axisBind_label.SetCharSize( QM_SMALLFONT );
 
@@ -269,7 +297,7 @@ void CMenuGamePad::_VidInit()
 	yaw.SetCoord( 630, 430 + sliderAlign );
 	yaw.SetCharSize( QM_SMALLFONT );
 	invYaw.SetCoord( 850, 430 );
-
+#endif
 	GetConfig();
 }
 

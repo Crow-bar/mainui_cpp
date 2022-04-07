@@ -35,7 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#include <sys/time.h>
 #elif defined __DOS__
 	// nothing
-#elif __psp__
+#elif defined __psp__
 	#include <pspkernel.h>
 	#include <psprtc.h>
 #else

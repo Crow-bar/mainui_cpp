@@ -11,16 +11,20 @@ enum EFontFlags
 	FONT_UNDERLINE = 1 << 1,
 	FONT_STRIKEOUT = 1 << 2
 };
-#ifdef MAINUI_PSPSIZE
+
+#ifdef MAINUI_PSP
 #define UI_CONSOLE_CHAR_WIDTH	9
-#define UI_CONSOLE_CHAR_HEIGHT  18
+#define UI_CONSOLE_CHAR_HEIGHT	18
+
 #define UI_SMALL_CHAR_WIDTH		20
-#define UI_SMALL_CHAR_HEIGHT	30
+#define UI_SMALL_CHAR_HEIGHT	40
+
 #define UI_MED_CHAR_WIDTH		22
-#define UI_MED_CHAR_HEIGHT		36
-#define UI_BIG_CHAR_WIDTH		30
+#define UI_MED_CHAR_HEIGHT		44
+
+#define UI_BIG_CHAR_WIDTH		25
 #define UI_BIG_CHAR_HEIGHT		50
-#else
+#else // MAINUI_PSP
 #ifndef MAINUI_SMALL_SCREEN
 #define UI_CONSOLE_CHAR_WIDTH	9
 #define UI_CONSOLE_CHAR_HEIGHT  18
@@ -51,8 +55,8 @@ enum EFontFlags
 
 #define UI_BIG_CHAR_WIDTH		35
 #define UI_BIG_CHAR_HEIGHT		70
-#endif
-#endif
+#endif // MAINUI_SMALL_SCREEN
+#endif // MAINUI_PSP
 
 enum EFontSizes
 {

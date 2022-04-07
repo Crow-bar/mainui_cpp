@@ -64,13 +64,17 @@ void CMenuOptions::_Init( void )
 		PC_VIDEO, UI_Video_Menu, QMF_NOTIFY );
 	if( UI_IsXashFWGS() )
 	{
+#ifndef MAINUI_PSP
 		AddButton( L( "Touch" ), L( "Change touch settings and buttons" ),
 			PC_TOUCH, UI_Touch_Menu, QMF_NOTIFY );
+#endif
 		AddButton( L( "GameUI_Joystick" ), L( "Change gamepad axis and button settings" ),
 			PC_GAMEPAD, UI_GamePad_Menu, QMF_NOTIFY );
 	}
+#ifndef MAINUI_PSP
 	AddButton( L( "Update" ), L( "Check for updates" ),
 		PC_UPDATE, msgBox.MakeOpenEvent(), QMF_NOTIFY );
+#endif
 	AddButton( L( "Done" ), L( "Go back to the Main menu" ),
 		PC_DONE, VoidCb( &CMenuOptions::Hide ), QMF_NOTIFY );
 }
