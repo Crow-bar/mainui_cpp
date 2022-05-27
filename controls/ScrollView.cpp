@@ -44,9 +44,15 @@ bool CMenuScrollView::KeyDown( int key )
 			newPos += 20;
 			break;
 
+#ifdef MAINUI_PSP
+		case K_R1_BUTTON:
+#endif
 		case K_PGUP:
 			newPos -= 100;
 			break;
+#ifdef MAINUI_PSP
+		case K_L1_BUTTON:
+#endif
 		case K_PGDN:
 			newPos += 100;
 			break;

@@ -146,10 +146,16 @@ bool CMenuConnectionProgress::KeyDown( int key )
 {
 	switch( key )
 	{
+#ifdef MAINUI_PSP
+	case K_START_BUTTON:
+#endif
 	case K_ESCAPE:
 		dialog.Show();
 		PlayLocalSound( uiSoundOut );
 		return true;
+#ifdef MAINUI_PSP
+	case K_MODE_BUTTON:
+#endif
 	case '~':
 		consoleButton.onReleased( &consoleButton );
 		PlayLocalSound( uiSoundLaunch );

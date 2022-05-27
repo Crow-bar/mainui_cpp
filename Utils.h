@@ -230,6 +230,9 @@ inline bool IsEscape( int key )
 {
 	switch( key )
 	{
+#ifdef MAINUI_PSP
+	case K_START_BUTTON:
+#endif
 	case K_ESCAPE:
 	case K_B_BUTTON:
 		return true;

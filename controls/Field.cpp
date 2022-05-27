@@ -184,6 +184,9 @@ bool CMenuField::KeyDown( int key )
 			iScroll = g_FontMgr->CutText( font, szBuffer, m_scChSize, iRealWidth, true );
 			handled = true; // handled
 			break;
+#ifdef MAINUI_PSP
+		case K_X_BUTTON:
+#endif
 		case K_BACKSPACE:
 			if( iCursor > 0 )
 			{

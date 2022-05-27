@@ -48,7 +48,7 @@ void CMenuBackgroundBitmap::VidInit()
 			size = m_pParent->size.Scale();
 		}
 	}
-#if MAINUI_PSP
+#ifdef MAINUI_PSP
 	colorBase.SetDefault( 0xFF000000 ); // black
 #else
 	colorBase.SetDefault( 0xFF505050 );

@@ -307,7 +307,11 @@ bool CMenuControls::CGrabKeyMessageBox::KeyUp( int key )
 	CMenuControls *parent = ((CMenuControls*)m_pParent);
 
 	// defining a key
+#ifdef MAINUI_PSP
+	if( key == '`' || key == '~' || key == K_ESCAPE || key == K_MODE_BUTTON || key == K_START_BUTTON )
+#else
 	if( key == '`' || key == '~' || key == K_ESCAPE )
+#endif
 	{
 		Hide();
 		PlayLocalSound( uiSoundBuzz );

@@ -348,10 +348,16 @@ bool CMenuTable::KeyDown( int key )
 		}
 		else sound = uiSoundBuzz;
 		break;
+#ifdef MAINUI_PSP
+	case K_L1_BUTTON:
+#endif
 	case K_PGDN:
 	case K_KP_PGDN:
 		sound = MoveCursor( 2 ) ? uiSoundMove : uiSoundBuzz;
 		break;
+#ifdef MAINUI_PSP
+	case K_R1_BUTTON:
+#endif
 	case K_PGUP:
 	case K_KP_PGUP:
 		sound = MoveCursor( -2 ) ? uiSoundMove : uiSoundBuzz;
@@ -366,6 +372,9 @@ bool CMenuTable::KeyDown( int key )
 	case K_MWHEELDOWN:
 		sound = MoveCursor( 1 ) ? uiSoundMove : uiSoundBuzz;
 		break;
+#ifdef MAINUI_PSP
+	case K_X_BUTTON:
+#endif
 	case K_BACKSPACE:
 	case K_DEL:
 	case K_AUX30:
