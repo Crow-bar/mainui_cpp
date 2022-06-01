@@ -313,7 +313,7 @@ void CMenuBackgroundBitmap::LoadBackground()
 	if( s_iBackgroundCount != 0 )
 		return;
 
-#if XASH_LOW_MEMORY
+#if XASH_LOW_MEMORY && !MAINUI_PSP
 	return;
 #endif
 	// try to load backgrounds from mod
