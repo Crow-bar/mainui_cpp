@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -62,6 +62,9 @@ private:
 	void GetConfig();
 	void SaveAndPopMenu() override;
 
+#ifdef MAINUI_PSP
+	CMenuSlider joyDzMin, joyDzMax, joyCvPower, joyCvExpo;
+#endif
 	CMenuSlider side, forward, pitch, yaw;
 	CMenuCheckBox invSide, invFwd, invPitch, invYaw;
 
@@ -79,6 +82,13 @@ void CMenuGamePad::GetConfig( void )
 {
 	float _side, _forward, _pitch, _yaw;
 	char binding[7] = { 0 };
+
+#ifdef MAINUI_PSP
+	joyDzMin.SetCurrentValue( EngFuncs::GetCvarFloat( "psp_joy_dz_min" ));
+	joyDzMax.SetCurrentValue( EngFuncs::GetCvarFloat( "psp_joy_dz_max" ));
+	joyCvPower.SetCurrentValue( EngFuncs::GetCvarFloat( "psp_joy_cv_power" ));
+	joyCvExpo.SetCurrentValue( EngFuncs::GetCvarFloat( "psp_joy_cv_expo" ));
+#endif
 
 	Q_strncpy( binding, EngFuncs::GetCvarString( "joy_axis_binding"), sizeof( binding ));
 
@@ -143,6 +153,13 @@ void CMenuGamePad::SaveAndPopMenu()
 	float _side, _forward, _pitch, _yaw;
 	char binding[7] = { 0 };
 
+#ifdef MAINUI_PSP
+	EngFuncs::CvarSetValue( "psp_joy_dz_min", joyDzMin.GetCurrentValue());
+	EngFuncs::CvarSetValue( "psp_joy_dz_max", joyDzMax.GetCurrentValue());
+	EngFuncs::CvarSetValue( "psp_joy_cv_power", joyCvPower.GetCurrentValue());
+	EngFuncs::CvarSetValue( "psp_joy_cv_expo", joyCvExpo.GetCurrentValue());
+#endif
+
 	_side = side.GetCurrentValue();
 	if( invSide.bChecked )
 		_side *= -1;
@@ -200,11 +217,19 @@ void CMenuGamePad::_Init( void )
 	axisBind_label.colorBase = uiColorHelp;
 	axisBind_label.szName = L( "Axis binding map" );
 
+#ifdef MAINUI_PSP
+	axisBind[2].szStatusText = L( "Set axis binding X" );
+	axisBind[2].Setup( &model );
+
+	axisBind[3].szStatusText = L( "Set axis binding Y" );
+	axisBind[3].Setup( &model );
+#else
 	for( i = 0, y = 230; i < 6; i++, y += 50 )
 	{
 		axisBind[i].szStatusText = L( "Set axis binding" );
 		axisBind[i].Setup( &model );
 	}
+#endif
 
 	side.Setup( 0.0f, 1.0f, 0.1f );
 	side.SetNameAndStatus( L( "Side" ), L( "Side movement sensitity" ) );
@@ -214,6 +239,27 @@ void CMenuGamePad::_Init( void )
 	forward.SetNameAndStatus( L( "Forward" ), L( "Forward movement sensitivity" ) );
 	invFwd.SetNameAndStatus( L( "Invert" ), L( "Invert forward movement axis" ) );
 
+#ifdef MAINUI_PSP
+	pitch.Setup( 0.0f, 200.0f, 2.0f );
+	pitch.SetNameAndStatus( L( "Look X" ), L( "Horizontal look sensitivity" ) );
+	invPitch.SetNameAndStatus( L( "Invert" ), L( "Invert pitch axis" ) );
+
+	yaw.Setup( 0.0f, 200.0f, 2.0f );
+	yaw.SetNameAndStatus( L( "Look Y" ), L( "Yaw rotating sensitivity" ) );
+	invYaw.SetNameAndStatus( L( "Invert" ), L( "Invert yaw axis" ) );
+
+	joyDzMin.Setup( 0.0f, 127.0f, 1.0f );
+	joyDzMin.SetNameAndStatus( L( "Joy DZ min" ), L( "Joystick deadzone min" ) );
+
+	joyDzMax.Setup( 0.0f, 127.0f, 1.0f );
+	joyDzMax.SetNameAndStatus( L( "Joy DZ max" ), L( "Joystick deadzone max" ) );
+
+	joyCvPower.Setup( 0.0f, 10.0f, 1.0f );
+	joyCvPower.SetNameAndStatus( L( "Joy CV power" ), L( "Joystick curve power" ) );
+
+	joyCvExpo.Setup( 0.0f, 1.0f, 0.1f );
+	joyCvExpo.SetNameAndStatus( L( "Joy CV expo" ), L( "Joystick curve expo" ) );
+#else
 	pitch.Setup( 0.0f, 200.0f, 0.1f );
 	pitch.SetNameAndStatus( L( "Look X" ), L( "Horizontal look sensitivity" ) );
 	invPitch.SetNameAndStatus( L( "Invert" ), L( "Invert pitch axis" ) );
@@ -221,15 +267,22 @@ void CMenuGamePad::_Init( void )
 	yaw.Setup( 0.0f, 200.0f, 0.1f );
 	yaw.SetNameAndStatus( L( "Look Y" ), L( "Yaw rotating sensitivity" ) );
 	invYaw.SetNameAndStatus( L( "Invert" ), L( "Invert yaw axis" ) );
+#endif
 
 	AddItem( background );
 	AddItem( banner );
 	AddButton( L( "Controls" ), L( "Change keyboard and mouse settings" ), PC_CONTROLS, UI_Controls_Menu );
 	AddButton( L( "Done" ), L( "Go back to the Configuration Menu" ), PC_DONE, VoidCb( &CMenuGamePad::SaveAndPopMenu ) );	// Обе строки уже встречались ранее !!
+
+#ifdef MAINUI_PSP
+	AddItem( axisBind[2] );
+	AddItem( axisBind[3] );
+#else
 	for( i = 0; i < 6; i++ )
 	{
 		AddItem( axisBind[i] );
 	}
+#endif
 	AddItem( side );
 	AddItem( invSide );
 	AddItem( forward );
@@ -238,38 +291,55 @@ void CMenuGamePad::_Init( void )
 	AddItem( invPitch );
 	AddItem( yaw );
 	AddItem( invYaw );
+#ifdef MAINUI_PSP
+	AddItem( joyDzMin );
+	AddItem( joyDzMax );
+	AddItem( joyCvPower );
+	AddItem( joyCvExpo );
+#endif
 	AddItem( axisBind_label );
 }
 
 void CMenuGamePad::_VidInit()
 {
 #ifdef MAINUI_PSP
-	axisBind_label.SetCoord( 360, 130 );
+	axisBind_label.SetCoord( 80, 250 );
 	axisBind_label.SetCharSize( QM_SMALLFONT );
 
-	for( int i = 0, y = 280; i < 6; i++, y += 55 )
-	{
-		axisBind[i].SetRect( 360, y, 256, invSide.size.h );
-		axisBind[i].SetCharSize( QM_SMALLFONT );
-	}
+	axisBind[2].SetRect( 80, 400, 256, invSide.size.h );
+	axisBind[2].SetCharSize( QM_SMALLFONT );
+	axisBind[3].SetRect( 80, 450, 256, invSide.size.h );
+	axisBind[3].SetCharSize( QM_SMALLFONT );
 
 	int sliderAlign = invSide.size.h - side.size.h;
 
-	side.SetCoord( 630, 320 + sliderAlign );
+	side.SetCoord( 388, 280 + sliderAlign );
 	side.SetCharSize( QM_SMALLFONT );
-	invSide.SetCoord( 850, 320 );
+	invSide.SetCoord( 600, 280 );
 
-	forward.SetCoord( 630, 400 + sliderAlign );
+	forward.SetCoord( 388, 360 + sliderAlign );
 	forward.SetCharSize( QM_SMALLFONT );
-	invFwd.SetCoord( 850, 400 );
+	invFwd.SetCoord( 600, 360 );
 
-	pitch.SetCoord( 630, 480 + sliderAlign );
+	pitch.SetCoord( 388, 440 + sliderAlign );
 	pitch.SetCharSize( QM_SMALLFONT );
-	invPitch.SetCoord( 850, 480 );
+	invPitch.SetCoord( 600, 440 );
 
-	yaw.SetCoord( 630, 560 + sliderAlign );
+	yaw.SetCoord( 388, 520 + sliderAlign );
 	yaw.SetCharSize( QM_SMALLFONT );
-	invYaw.SetCoord( 850, 560 );
+	invYaw.SetCoord( 600, 520 );
+
+	joyDzMin.SetCoord( 800, 280 + sliderAlign );
+	joyDzMin.SetCharSize( QM_SMALLFONT );
+
+	joyDzMax.SetCoord( 800, 360 + sliderAlign );
+	joyDzMax.SetCharSize( QM_SMALLFONT );
+
+	joyCvPower.SetCoord( 800, 440 + sliderAlign );
+	joyCvPower.SetCharSize( QM_SMALLFONT );
+
+	joyCvExpo.SetCoord( 800, 520 + sliderAlign );
+	joyCvExpo.SetCharSize( QM_SMALLFONT );
 #else
 	axisBind_label.SetCoord( 360, 230 );
 	axisBind_label.SetCharSize( QM_SMALLFONT );
