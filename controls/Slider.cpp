@@ -36,6 +36,10 @@ CMenuSlider::CMenuSlider() : BaseClass(), m_flMinValue(), m_flMaxValue(), m_flCu
 	imgSlider = UI_SLIDER_MAIN;
 
 	iFlags |= QMF_DROPSHADOW;
+
+#ifdef MAINUI_PSP
+	m_szCurValue[0] = 0;
+#endif
 }
 
 /*
@@ -199,6 +203,23 @@ void CMenuSlider::Draw( void )
 	else
 		UI_DrawPic( sliderX, m_scPos.y, m_scCenterBox.w, m_scSize.h, uiColorWhite, imgSlider );
 
+#ifdef MAINUI_PSP
+	// draw current value
+	if( iFlags & QMF_HASKEYBOARDFOCUS )
+	{
+		int	r, g, b;
+
+		if( m_flPrevValue != m_flCurValue )
+		{
+			snprintf( m_szCurValue, CS_SIZE, "%.2f", m_flCurValue );
+			m_flPrevValue = m_flCurValue;
+		}
+
+		UnpackRGB( r, g, b, uiColorDkGrey );
+		EngFuncs::DrawSetTextColor( r, g, b );
+		EngFuncs::DrawConsoleString( sliderX, m_scPos.y - m_scSize.h, m_szCurValue );
+	}
+#endif
 
 	textHeight = m_scPos.y - (m_scChSize * 1.5f);
 	UI_DrawString( font, m_scPos.x, textHeight, m_scSize.w, m_scChSize, szName, uiColorHelp, m_scChSize, eTextAlignment, textflags | ETF_FORCECOL );

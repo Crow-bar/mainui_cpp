@@ -62,6 +62,10 @@ private:
 	int		m_iNumSteps;
 	float	m_flRange;
 	int		m_iKeepSlider;	// when mouse button is holds
+#ifdef MAINUI_PSP
+	float	m_flPrevValue;
+	char	m_szCurValue[CS_SIZE];
+#endif
 
 	int m_iSliderOutlineWidth;
 	Size m_scCenterBox;
